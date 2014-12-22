@@ -1819,7 +1819,7 @@ def generateExportFn_1(wrt, child, name, namespace, fill):
                 SimpleTypeDict[child.getSimpleType()].isListType()):
             s1 = "%s            outfile.write('<%%s%s>%%s</%%s%s>%%s' %% " \
                 "(namespace_, self.gds_format_string(quote_xml" \
-                "(' '.join(self.%s)).encode(ExternalEncoding), " \
+                "(' '.join(self.%s)), " \
                 "input_name='%s'), namespace_, eol_))\n" % \
                 (fill, name, name, mappedName, name, )
         else:
@@ -2077,7 +2077,7 @@ def generateExportFn_3(wrt, child, name, namespace, fill):
                 SimpleTypeDict[child.getSimpleType()].isListType()):
             s1 = "%s            outfile.write('<%%s%s>%%s</%%s%s>%%s' %% " \
                 "(namespace_, self.gds_format_string(" \
-                "quote_xml(' '.join(self.%s)).encode(ExternalEncoding), " \
+                "quote_xml(' '.join(self.%s)), " \
                 "input_name='%s'), namespace_, eol_))\n" % \
                 (fill, name, name, mappedName, name, )
         else:
@@ -2400,8 +2400,7 @@ def generateExportAttributes(wrt, element, hasAttributes):
                     attrDefType in DateTimeGroupType):
                 s1 = '''%s        outfile.write(' %s=%%s' %% ''' \
                     '''(self.gds_format_string(quote_attrib(''' \
-                    '''self.%s).encode(''' \
-                    '''ExternalEncoding), input_name='%s'), ))\n''' % \
+                    '''self.%s), input_name='%s'), ))\n''' % \
                     (indent, orig_name, cleanName, name, )
             elif (attrDefType in IntegerType or
                     attrDefType == PositiveIntegerType or
@@ -2691,8 +2690,7 @@ def generateExportLiteralFn_1(wrt, child, name, fill):
                     SimpleTypeDict[child.getSimpleType()].isListType()):
                 wrt("%s            if self.%s:\n" % (fill, mappedName, ))
                 wrt("%s                outfile.write('%s=%%s,\\n' %% "
-                    "quote_python(' '.join(self.%s)).encode("
-                    "ExternalEncoding)) \n" %
+                    "quote_python(' '.join(self.%s))) \n" %
                     (fill, mappedName, mappedName, ))
                 wrt("%s            else:\n" % (fill, ))
                 wrt("%s                outfile.write('%s=None,\\n')\n" %
@@ -2762,8 +2760,8 @@ def generateExportLiteralFn_2(wrt, child, name, fill):
             childType == TokenType or
             childType in DateTimeGroupType):
         wrt('%s        showIndent(outfile, level)\n' % fill)
-        wrt("%s        outfile.write('%%s,\\n' %% quote_python(%s_).encode("
-            "ExternalEncoding))\n" % (fill, name))
+        wrt("%s        outfile.write('%%s,\\n' %% quote_python(%s_))\n" %
+            (fill, name))
     elif (childType in IntegerType or
             childType == PositiveIntegerType or
             childType == NonPositiveIntegerType or
