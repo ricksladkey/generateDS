@@ -4899,7 +4899,7 @@ Usage: python <%(prefix)sParser>.py [ -s ] <in_xml_file>
 
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 
@@ -5154,7 +5154,7 @@ def get_impl_body(classBehavior, baseImplUrl, implUrl):
 ##                impl = implFile.read()
 ##                implFile.close()
 ##            except:
-##                print '*** Implementation at %s not found.' % implUrl
+##                print('*** Implementation at %s not found.' % implUrl)
 ##    return impl
 
 
@@ -5438,7 +5438,7 @@ Usage: python ???.py <infilename>
 
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 
@@ -5885,9 +5885,9 @@ def parseAndGenerate(
         root = dh.getRoot()
         root.annotate()
 
-##     print '-' * 60
+##     print('-' * 60)
 ##     root.show(sys.stdout, 0)
-##     print '-' * 60
+##     print('-' * 60)
     #debug_show_elements(root)
         generate(
             outfileName, subclassFilename, behaviorFilename,
@@ -6021,27 +6021,27 @@ def expandGroupReferences(grp):
 
 
 def debug_show_elements(root):
-    #print 'ElementDict:', ElementDict
+    #print('ElementDict:', ElementDict)
     print('=' * 50)
     for name, obj in ElementDict.items():
         print('element:', name, obj.getName(), obj.type)
     print('=' * 50)
     #ipshell('debug')
 ##     root.show(sys.stdout, 0)
-##     print '=' * 50
+##     print('=' * 50)
 ##     response = raw_input('Press Enter')
 ##     root.show(sys.stdout, 0)
-##     print '=' * 50
-##     print ']]] root: ', root, '[[['
+##     print('=' * 50)
+##     print(']]] root: ', root, '[[[')
 
 
 def load_config():
     try:
-        #print '1. updating NameTable'
+        #print('1. updating NameTable')
         import generateds_config
         NameTable.update(generateds_config.NameTable)
-        #print '2. updating NameTable'
-        #print '3. NameTable:', NameTable
+        #print('2. updating NameTable')
+        #print('3. NameTable:', NameTable)
     except ImportError:
         pass
 
