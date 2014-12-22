@@ -15,7 +15,7 @@ Examples:
 
 import sys
 import os
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import copy
 from optparse import OptionParser, Values
 import itertools
@@ -177,12 +177,12 @@ def resolve_ref(node, params, options):
 ##             print '    schema_name : %s\n' % (schema_name, )
             if locn.startswith('http:') or locn.startswith('ftp:'):
                 try:
-                    urlfile = urllib2.urlopen(locn)
+                    urlfile = urllib.request.urlopen(locn)
                     content = urlfile.read()
                     urlfile.close()
                     params.parent_url = locn
                     params.base_url = os.path.split(locn)[0]
-                except urllib2.HTTPError:
+                except urllib.error.HTTPError:
                     msg = "Can't find file %s referenced in %s." % (
                         locn, params.parent_url, )
                     raise SchemaIOError(msg)
@@ -264,7 +264,7 @@ def get_root_file_paths_aux(child, params, rootPaths):
 def make_file(outFileName, options):
     outFile = None
     if (not options.force) and os.path.exists(outFileName):
-        reply = raw_input('File %s exists.  Overwrite? (y/n): ' % outFileName)
+        reply = input('File %s exists.  Overwrite? (y/n): ' % outFileName)
         if reply == 'y':
             outFile = open(outFileName, 'w')
     else:
