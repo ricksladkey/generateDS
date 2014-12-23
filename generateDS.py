@@ -921,7 +921,7 @@ class XschemaElement(XschemaElementBase):
 
     def collectSimpleBases(self):
         if self.base:
-            self.addSimpleBase(self.base.encode('utf-8'))
+            self.addSimpleBase(self.base)
         if self.simpleBase:
             base1 = SimpleTypeDict.get(self.simpleBase[0])
             if base1:
@@ -929,7 +929,7 @@ class XschemaElement(XschemaElementBase):
             else:
                 base2 = None
             while base2:
-                self.addSimpleBase(base2.encode('utf-8'))
+                self.addSimpleBase(base2)
                 base2 = SimpleTypeDict.get(base2)
                 if base2:
                     base2 = base2.getBase()
@@ -977,7 +977,7 @@ class XschemaElement(XschemaElementBase):
         if type_val == AnyType:
             return AnyType
         if type_val in SimpleTypeDict:
-            self.addSimpleBase(type_val.encode('utf-8'))
+            self.addSimpleBase(type_val)
             simple_type = SimpleTypeDict[type_val]
             list_type = simple_type.resolve_list_type()
             self.setListType(list_type)
@@ -1566,7 +1566,7 @@ class XschemaHandler(handler.ContentHandler):
                     if (len(self.stack) > 0 and
                             isinstance(self.stack[-1], XschemaElement)):
                         self.stack[-1].addSimpleBase(
-                            extensionBase.encode('utf-8'))
+                            extensionBase)
                 else:
                     self.stack[-1].setBase(extensionBase)
         elif name == AnyAttributeType:
