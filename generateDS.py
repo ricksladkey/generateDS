@@ -3809,21 +3809,21 @@ def generateCtor(wrt, element):
         name = mapName(mappedName)
         attrType = attrDef.getType()
         if attrType == DateTimeType:
-            wrt("        if isinstance(%s, basestring):\n" % (name, ))
+            wrt("        if isinstance(%s, str):\n" % (name, ))
             wrt("            initvalue_ = datetime_.datetime.strptime("
                 "%s, '%%Y-%%m-%%dT%%H:%%M:%%S')\n" % (name, ))
             wrt("        else:\n")
             wrt("            initvalue_ = %s\n" % (name, ))
             wrt("        self.%s = initvalue_\n" % (name, ))
         elif attrType == DateType:
-            wrt("        if isinstance(%s, basestring):\n" % (name, ))
+            wrt("        if isinstance(%s, str):\n" % (name, ))
             wrt("            initvalue_ = datetime_.datetime.strptime("
                 "%s, '%%Y-%%m-%%d').date()\n" % (name, ))
             wrt("        else:\n")
             wrt("            initvalue_ = %s\n" % (name, ))
             wrt("        self.%s = initvalue_\n" % (name, ))
         elif attrType == TimeType:
-            wrt("        if isinstance(%s, basestring):\n" % (name, ))
+            wrt("        if isinstance(%s, str):\n" % (name, ))
             wrt("            initvalue_ = datetime_.datetime.strptime("
                 "%s, '%%H:%%M:%%S').time()\n" % (name, ))
             wrt("        else:\n")
@@ -3850,7 +3850,7 @@ def generateCtor(wrt, element):
             else:
                 wrt('        self.anytypeobjs_ = anytypeobjs_\n')
         elif childType == DateTimeType and child.getMaxOccurs() <= 1:
-            wrt("        if isinstance(%s, basestring):\n" % (name, ))
+            wrt("        if isinstance(%s, str):\n" % (name, ))
             wrt("            initvalue_ = datetime_.datetime.strptime("
                 "%s, '%%Y-%%m-%%dT%%H:%%M:%%S')\n" % (name, ))
             wrt("        else:\n")
@@ -3860,7 +3860,7 @@ def generateCtor(wrt, element):
             else:
                 wrt("        self.%s = initvalue_\n" % (name, ))
         elif childType == DateType and child.getMaxOccurs() <= 1:
-            wrt("        if isinstance(%s, basestring):\n" % (name, ))
+            wrt("        if isinstance(%s, str):\n" % (name, ))
             wrt("            initvalue_ = datetime_.datetime.strptime("
                 "%s, '%%Y-%%m-%%d').date()\n" % (name, ))
             wrt("        else:\n")
@@ -3870,7 +3870,7 @@ def generateCtor(wrt, element):
             else:
                 wrt("        self.%s = initvalue_\n" % (name, ))
         elif childType == TimeType and child.getMaxOccurs() <= 1:
-            wrt("        if isinstance(%s, basestring):\n" % (name, ))
+            wrt("        if isinstance(%s, str):\n" % (name, ))
             wrt("            initvalue_ = datetime_.datetime.strptime("
                 "%s, '%%H:%%M:%%S').time()\n" % (name, ))
             wrt("        else:\n")
@@ -4651,7 +4651,7 @@ def showIndent(outfile, level, pretty_print=True):
 def quote_xml(inStr):
     if not inStr:
         return ''
-    s1 = (isinstance(inStr, basestring) and inStr or
+    s1 = (isinstance(inStr, str) and inStr or
           '%%s' %% inStr)
     s1 = s1.replace('&', '&amp;')
     s1 = s1.replace('<', '&lt;')
@@ -4660,7 +4660,7 @@ def quote_xml(inStr):
 
 
 def quote_attrib(inStr):
-    s1 = (isinstance(inStr, basestring) and inStr or
+    s1 = (isinstance(inStr, str) and inStr or
           '%%s' %% inStr)
     s1 = s1.replace('&', '&amp;')
     s1 = s1.replace('<', '&lt;')
