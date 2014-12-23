@@ -1828,8 +1828,8 @@ def generateExportFn_1(wrt, child, name, namespace, fill):
                 namespace = "'%s:'" % child.prefix
 
             s1 = "%s            outfile.write('<%%s%s>%%s</%%s%s>%%s' %% " \
-                "(%s, self.gds_format_string(quote_xml(self.%s)." \
-                "encode(ExternalEncoding), input_name='%s'), " \
+                "(%s, self.gds_format_string(quote_xml(self.%s), " \
+                "input_name='%s'), " \
                 "%s, eol_))\n" % \
                 (fill, name, name, namespace, mappedName, name, namespace, )
         wrt(s1)
@@ -1953,8 +1953,8 @@ def generateExportFn_2(wrt, child, name, namespace, fill):
             child_type in DateTimeGroupType):
         wrt('%s        showIndent(outfile, level, pretty_print)\n' % fill)
         wrt("%s        outfile.write('<%%s%s>%%s</%%s%s>%%s' %% "
-            "(namespace_, self.gds_format_string(quote_xml(%s_).encode("
-            "ExternalEncoding), input_name='%s'), namespace_, eol_))\n" %
+            "(namespace_, self.gds_format_string(quote_xml(%s_), "
+            "input_name='%s'), namespace_, eol_))\n" %
             (fill, name, name, cleanName, name,))
     elif (child_type in IntegerType or
             child_type == PositiveIntegerType or
@@ -2083,7 +2083,7 @@ def generateExportFn_3(wrt, child, name, namespace, fill):
         else:
             s1 = "%s            outfile.write('<%%s%s>%%s</%%s%s>%%s' %% " \
                 "(namespace_, self.gds_format_string(" \
-                "quote_xml(self.%s).encode(ExternalEncoding), " \
+                "quote_xml(self.%s), " \
                 "input_name='%s'), namespace_, eol_))\n" % \
                 (fill, name, name, mappedName, name, )
         wrt(s1)
@@ -2565,8 +2565,7 @@ def generateExportFn(wrt, prefix, element, namespace, nameSpacesDef):
         if element.getSimpleContent():
             wrt("            outfile.write('>')\n")
             if not element.isMixed():
-                wrt("            outfile.write(str(self.valueOf_).encode("
-                    "ExternalEncoding))\n")
+                wrt("            outfile.write(str(self.valueOf_))\n")
         else:
             wrt("            outfile.write('>%s' % (eol_, ))\n")
         wrt("            self.exportChildren(outfile, level + 1, "
@@ -2697,7 +2696,7 @@ def generateExportLiteralFn_1(wrt, child, name, fill):
                     (fill, mappedName, ))
             else:
                 wrt("%s            outfile.write('%s=%%s,\\n' %% "
-                    "quote_python(self.%s).encode(ExternalEncoding))\n" %
+                    "quote_python(self.%s))\n" %
                     (fill, mappedName, mappedName, ))
         elif (childType in IntegerType or
                 childType == PositiveIntegerType or
