@@ -188,7 +188,7 @@ def resolve_ref(node, params, options):
                     raise SchemaIOError(msg)
             else:
                 if os.path.exists(locn):
-                    infile = open(locn)
+                    infile = open(locn, 'rb')
                     content = infile.read()
                     infile.close()
                     params.parent_url = locn
