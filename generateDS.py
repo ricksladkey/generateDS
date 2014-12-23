@@ -2980,7 +2980,7 @@ def generateBuildAttributes(wrt, element, hasAttributes):
             wrt('            try:\n')
             wrt("                self.%s = self.gds_parse_datetime("
                 "value)\n" % (mappedName, ))
-            wrt('            except ValueError, exp:\n')
+            wrt('            except ValueError as exp:\n')
             wrt("                raise ValueError("
                 "'Bad date-time attribute (%s): %%s' %% exp)\n" %
                 (name, ))
@@ -2994,7 +2994,7 @@ def generateBuildAttributes(wrt, element, hasAttributes):
             wrt('            try:\n')
             wrt("                self.%s = self.gds_parse_date("
                 "value)\n" % (mappedName, ))
-            wrt('            except ValueError, exp:\n')
+            wrt('            except ValueError as exp:\n')
             wrt("                raise ValueError("
                 "'Bad date attribute (%s): %%s' %% exp)\n" %
                 (name, ))
@@ -3008,7 +3008,7 @@ def generateBuildAttributes(wrt, element, hasAttributes):
             wrt('            try:\n')
             wrt("                self.%s = self.gds_parse_time("
                 "value)\n" % (mappedName, ))
-            wrt('            except ValueError, exp:\n')
+            wrt('            except ValueError as exp:\n')
             wrt("                raise ValueError("
                 "'Bad time attribute (%s): %%s' %% exp)\n" %
                 (name, ))
@@ -3025,7 +3025,7 @@ def generateBuildAttributes(wrt, element, hasAttributes):
             wrt("            already_processed.add('%s')\n" % (name, ))
             wrt('            try:\n')
             wrt("                self.%s = int(value)\n" % (mappedName, ))
-            wrt('            except ValueError, exp:\n')
+            wrt('            except ValueError as exp:\n')
             wrt("                raise_parse_error("
                 "node, 'Bad integer attribute: %s' % exp)\n")
             if atype == PositiveIntegerType:
@@ -3068,7 +3068,7 @@ def generateBuildAttributes(wrt, element, hasAttributes):
             wrt('            try:\n')
             wrt("                self.%s = float(value)\n" %
                 (mappedName, ))
-            wrt('            except ValueError, exp:\n')
+            wrt('            except ValueError as exp:\n')
             wrt("                raise ValueError('Bad float/double "
                 "attribute (%s): %%s' %% exp)\n" %
                 (name, ))
@@ -3142,7 +3142,7 @@ def generateBuildMixed_1(wrt, prefix, child, headChild, keyword, delayed):
         wrt("            sval_ = child_.text\n")
         wrt("            try:\n")
         wrt("                ival_ = int(sval_)\n")
-        wrt("            except (TypeError, ValueError), exp:\n")
+        wrt("            except (TypeError, ValueError) as exp:\n")
         wrt("                raise_parse_error(child_, "
             "'requires integer: %s' % exp)\n")
         if childType == PositiveIntegerType:
@@ -3188,7 +3188,7 @@ def generateBuildMixed_1(wrt, prefix, child, headChild, keyword, delayed):
         wrt("            sval_ = child_.text\n")
         wrt("            try:\n")
         wrt("                fval_ = float(sval_)\n")
-        wrt("            except (TypeError, ValueError), exp:\n")
+        wrt("            except (TypeError, ValueError) as exp:\n")
         wrt("                raise_parse_error(child_, "
             "'requires float or double: %s' % exp)\n")
         wrt("            obj_ = self.mixedclass_("
@@ -3202,7 +3202,7 @@ def generateBuildMixed_1(wrt, prefix, child, headChild, keyword, delayed):
         wrt("            sval_ = child_.text\n")
         wrt("            try:\n")
         wrt("                bval_ = base64.b64decode(sval_)\n")
-        wrt("            except (TypeError, ValueError), exp:\n")
+        wrt("            except (TypeError, ValueError) as exp:\n")
         wrt("                raise_parse_error(child_, "
             "'requires base64 encoded string: %s' % exp)\n")
         wrt("            obj_ = self.mixedclass_("
@@ -3355,7 +3355,7 @@ def generateBuildStandard_1(
         wrt("            sval_ = child_.text\n")
         wrt("            try:\n")
         wrt("                ival_ = int(sval_)\n")
-        wrt("            except (TypeError, ValueError), exp:\n")
+        wrt("            except (TypeError, ValueError) as exp:\n")
         wrt("                raise_parse_error(child_, "
             "'requires integer: %s' % exp)\n")
         if childType == PositiveIntegerType:
@@ -3404,7 +3404,7 @@ def generateBuildStandard_1(
         wrt("            sval_ = child_.text\n")
         wrt("            try:\n")
         wrt("                fval_ = float(sval_)\n")
-        wrt("            except (TypeError, ValueError), exp:\n")
+        wrt("            except (TypeError, ValueError) as exp:\n")
         wrt("                raise_parse_error("
             "child_, 'requires float or double: %s' % exp)\n")
         wrt("            fval_ = self.gds_validate_float("
@@ -3420,7 +3420,7 @@ def generateBuildStandard_1(
         wrt("            if sval_ is not None:\n")
         wrt("                try:\n")
         wrt("                    bval_ = base64.b64decode(sval_)\n")
-        wrt("                except (TypeError, ValueError), exp:\n")
+        wrt("                except (TypeError, ValueError) as exp:\n")
         wrt("                    raise_parse_error(child_, "
             "'requires base64 encoded string: %s' % exp)\n")
         wrt("                bval_ = self.gds_validate_base64("
@@ -4334,7 +4334,7 @@ def parsexml_(*args, **kwargs):
 
 try:
     from generatedssuper import GeneratedsSuper
-except ImportError, exp:
+except ImportError as exp:
 
     class GeneratedsSuper(object):
         tzoff_pattern = re_.compile(r'(\+|-)((0\d|1[0-3]):[0-5]\d|14:00)$')
