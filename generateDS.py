@@ -4209,7 +4209,6 @@ def generateClasses(wrt, prefix, element, delayed, nameSpacesDef=''):
     # If this element has documentation, generate a doc-string.
     if element.documentation:
         s2 = ' '.join(element.documentation.strip().split())
-        s2 = s2.encode('utf-8')
         s2 = textwrap.fill(s2, width=68, subsequent_indent='    ')
         if s2[0] == '"' or s2[-1] == '"':
             s2 = '    """ %s """\n' % (s2, )
@@ -5148,7 +5147,7 @@ def get_impl_body(classBehavior, baseImplUrl, implUrl):
 ##            trylocal = 1
 ##        if trylocal:
 ##            try:
-##                implFile = file(implUrl)
+##                implFile = open(implUrl)
 ##                impl = implFile.read()
 ##                implFile.close()
 ##            except:
@@ -5727,9 +5726,9 @@ def makeFile(outFileName):
             reply = input(
                 'File %s exists.  Overwrite? (y/n): ' % outFileName)
             if reply == 'y':
-                outFile = file(outFileName, 'w')
+                outFile = open(outFileName, 'w')
     else:
-        outFile = file(outFileName, 'w')
+        outFile = open(outFileName, 'w')
     return outFile
 
 
@@ -5871,7 +5870,7 @@ def parseAndGenerate(
 
         if processIncludes:
             import process_includes
-            outfile = io.StringIO()
+            outfile = io.BytesIO()
             process_includes.process_include_files(
                 infile, outfile,
                 inpath=xschemaFileName,
