@@ -145,6 +145,7 @@ import logging
 import keyword
 import io
 import textwrap
+from collections import OrderedDict as odict
 
 # Default logger configuration
 logging.basicConfig(
@@ -189,9 +190,9 @@ AlreadyGenerated = []
 AlreadyGenerated_subclass = []
 PostponedExtensions = []
 ElementsForSubclasses = []
-ElementDict = {}
-fqnToElementDict = {}
-fqnToModuleNameMap = {}
+ElementDict = odict()
+fqnToElementDict = odict()
+fqnToModuleNameMap = odict()
 Force = False
 NoQuestions = False
 NoDates = False
@@ -200,9 +201,9 @@ Dirpath = []
 ExternalEncoding = sys.getdefaultencoding()
 Namespacedef = ''
 
-NamespacesDict = {}
-prefixToNamespaceMap = {}
-MappingTypes = {}
+NamespacesDict = odict()
+prefixToNamespaceMap = odict()
+MappingTypes = odict()
 Targetnamespace = ""
 
 NameTable = {
@@ -216,15 +217,15 @@ for kw in keyword.kwlist:
 
 SubclassSuffix = 'Sub'
 RootElement = None
-AttributeGroups = {}
-ElementGroups = {}
-SubstitutionGroups = {}
+AttributeGroups = odict()
+ElementGroups = odict()
+SubstitutionGroups = odict()
 #
 # SubstitutionGroups can also include simple types that are
 #   not (defined) elements.  Keep a list of these simple types.
 #   These are simple types defined at top level.
-SimpleElementDict = {}
-SimpleTypeDict = {}
+SimpleElementDict = odict()
+SimpleTypeDict = odict()
 ValidatorBodiesBasePath = None
 UserMethodsPath = None
 UserMethodsModule = None
@@ -239,7 +240,7 @@ SingleFileOutput = True
 OutputDirectory = None
 ModuleSuffix = ""
 
-SchemaToPythonTypeMap = {}
+SchemaToPythonTypeMap = odict()
 
 # Initialize constants.
 CurrentNamespacePrefix = None
@@ -450,7 +451,7 @@ def set_type_constants(nameSpace):
         NonPositiveIntegerType: 'int',
         PositiveIntegerType: 'int',
     }
-    SchemaToPythonTypeMap.update(dict((x, 'int') for x in IntegerType))
+    SchemaToPythonTypeMap.update(odict((x, 'int') for x in IntegerType))
 
 #
 # For debugging.
@@ -494,7 +495,7 @@ class SimpleTypeElement(XschemaElementBase):
         #   there is one.
         self.attributeGroup = None
         # Attribute definitions for the currect element.
-        self.attributeDefs = {}
+        self.attributeDefs = odict()
         self.complexType = 0
         # Enumeration values for the current element.
         self.values = list()
@@ -561,7 +562,7 @@ class XschemaElement(XschemaElementBase):
     def __init__(self, attrs, targetNamespace=None):
         XschemaElementBase.__init__(self)
         self.cleanName = ''
-        self.attrs = dict(attrs)
+        self.attrs = odict(attrs)
         name_val = ''
         type_val = ''
         ref_val = ''
@@ -626,7 +627,7 @@ class XschemaElement(XschemaElementBase):
         self.mixedExtensionError = 0
         self.collapseWhiteSpace = 0
         # Attribute definitions for the currect element.
-        self.attributeDefs = {}
+        self.attributeDefs = odict()
         # Attribute definitions for the current attributeGroup, if
         #   there is one.
         self.attributeGroup = None
@@ -905,7 +906,7 @@ class XschemaElement(XschemaElementBase):
 
     def get_element(self, element_name):
         if self.element_dict is None:
-            self.element_dict = dict()
+            self.element_dict = odict()
             self.build_element_dict(self.element_dict)
         return self.element_dict.get(element_name)
 
@@ -1253,7 +1254,7 @@ class XschemaAttributeGroup:
         if group:
             self.group = group
         else:
-            self.group = {}
+            self.group = odict()
 
     def setName(self, name):
         self.name = name
@@ -3631,7 +3632,7 @@ def countElementChildren(element, count):
 
 def buildCtorArgs_multilevel(element, childCount):
     content = []
-    addedArgs = {}
+    addedArgs = odict()
     add = content.append
     buildCtorArgs_multilevel_aux(addedArgs, add, element)
     eltype = element.getType()
@@ -4609,7 +4610,7 @@ except ImportError as exp:
             return None
         @classmethod
         def gds_reverse_node_mapping(cls, mapping):
-            return dict(((v, k) for k, v in mapping.iteritems()))
+            return odict(((v, k) for k, v in mapping.iteritems()))
 
 
 #
@@ -5057,7 +5058,7 @@ def generateMain(outfile, prefix, root):
 
 def buildCtorParams(element, parent, childCount):
     content = []
-    addedArgs = {}
+    addedArgs = odict()
     add = content.append
 ##     if not element.isMixed():
 ##         buildCtorParams_aux(addedArgs, add, parent)
