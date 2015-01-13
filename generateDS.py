@@ -4356,7 +4356,7 @@ except ImportError as exp:
             else:
                 return input_data
         def gds_format_base64(self, input_data, input_name=''):
-            return base64.b64encode(input_data)
+            return base64.b64encode(input_data).decode('ascii')
         def gds_validate_base64(self, input_data, node, input_name=''):
             return input_data
         def gds_format_integer(self, input_data, input_name=''):
@@ -4784,7 +4784,7 @@ class MixedContainer:
                 self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
             outfile.write('<%%s>%%s</%%s>' %% (
-                self.name, base64.b64encode(self.value), self.name))
+                self.name, base64.b64encode(self.value).decode('ascii'), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
@@ -4816,7 +4816,7 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeDouble:
             text = '%%g' %% self.value
         elif self.content_type == MixedContainer.TypeBase64:
-            text = '%%s' %% base64.b64encode(self.value)
+            text = '%%s' %% base64.b64encode(self.value).decode('ascii')
         return text
     def exportLiteral(self, outfile, level, name):
         if self.category == MixedContainer.CategoryText:
